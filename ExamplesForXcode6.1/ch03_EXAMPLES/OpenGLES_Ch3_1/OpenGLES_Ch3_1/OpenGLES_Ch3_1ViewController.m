@@ -24,9 +24,13 @@ SceneVertex;
 // Define vertex data for a triangle to use in example
 static const SceneVertex vertices[] = 
 {
-   {{-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f}}, // lower left corner
-   {{ 0.5f, -0.5f, 0.0f}, {1.0f, 0.0f}}, // lower right corner
-   {{-0.5f,  0.5f, 0.0f}, {0.0f, 1.0f}}, // upper left corner
+//   {{-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f}}, // lower left corner
+//   {{ 0.5f, -0.5f, 0.0f}, {1.0f, 0.0f}}, // lower right corner
+//   {{-0.5f,  0.5f, 0.0f}, {0.0f, 1.0f}}, // upper left corner
+    
+    {{-0.5, -0.5, 0.0}, {0.0f, 0.0f}},
+    {{-0.5, 0.5, 0.0}, {1.0f, 0.0f}},
+    {{0.5, 0.5, 0.0}, {0.0f, 1.0f}}
 };
 
 
@@ -106,6 +110,7 @@ static const SceneVertex vertices[] =
       numberOfCoordinates:3
       attribOffset:offsetof(SceneVertex, positionCoords)
       shouldEnable:YES];
+    
    [self.vertexBuffer prepareToDrawWithAttrib:GLKVertexAttribTexCoord0
       numberOfCoordinates:2
       attribOffset:offsetof(SceneVertex, textureCoords)
