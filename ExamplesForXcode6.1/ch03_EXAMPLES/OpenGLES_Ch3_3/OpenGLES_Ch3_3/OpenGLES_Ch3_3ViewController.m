@@ -163,6 +163,7 @@ static GLKVector3 movementVectors[3] = {
    [vertexBuffer reinitWithAttribStride:sizeof(SceneVertex)
       numberOfVertices:sizeof(vertices) / sizeof(SceneVertex)
       bytes:vertices];
+    
 }
 
 
