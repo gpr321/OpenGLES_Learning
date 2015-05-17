@@ -26,8 +26,8 @@ typedef struct {
 
 @property (nonatomic,assign) GLuint vertexBufferID;
 
-@property (nonatomic,strong) GLKTextureInfo *textureInfo1;
-@property (nonatomic,strong) GLKTextureInfo *textureInfo2;
+//@property (nonatomic,strong) GLKTextureInfo *textureInfo1;
+//@property (nonatomic,strong) GLKTextureInfo *textureInfo2;
 
 @end
 
@@ -81,16 +81,17 @@ static const SceneVertex vertices[] =
     // GLKTextureLoaderOriginBottomLeft = yes : 垂直翻转图像数据,抵消图像原点和opengl原点之间的差异
     GLKTextureInfo *textureInfo = [GLKTextureLoader textureWithCGImage:image.CGImage options:@{GLKTextureLoaderOriginBottomLeft : @YES} error:NULL];
     
-    self.textureInfo1 = textureInfo;
+    self.baseEffect.texture2d0.name = textureInfo.name;
+    self.baseEffect.texture2d0.target = textureInfo.target;
     
     image = [UIImage imageNamed:@"beetle.png"];
     
     textureInfo =  [GLKTextureLoader textureWithCGImage:image.CGImage options:@{GLKTextureLoaderOriginBottomLeft : @YES} error:NULL];
-    self.textureInfo2 = textureInfo;
     
-    // 开启标准混合模式
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    self.baseEffect.texture2d1.name = textureInfo.name;
+    self.baseEffect.texture2d1.target = textureInfo.target;
+    self.baseEffect.texture2d1.envMode = GLKTextureEnvModeDecal;
+    
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect{
@@ -101,14 +102,8 @@ static const SceneVertex vertices[] =
     
     [self.vertexBuffer prepareToDrawWithAttrib:GLKVertexAttribTexCoord0 numberOfCoordinates:2 attribOffset:offsetof(SceneVertex, textTureCoords) shouldEnable:YES];
     
-    self.baseEffect.texture2d0.name = self.textureInfo1.name;
-    self.baseEffect.texture2d0.target = self.textureInfo1.target;
-    [self.baseEffect prepareToDraw];
-
-    [self.vertexBuffer drawWithMode:GL_TRIANGLES startVertexIndex:0 numberOfVertex:sizeof(vertices)/ sizeof(SceneVertex)];
+    [self.vertexBuffer prepareToDrawWithAttrib:GLKVertexAttribTexCoord1 numberOfCoordinates:2 attribOffset:offsetof(SceneVertex, textTureCoords) shouldEnable:YES];
     
-    self.baseEffect.texture2d0.name = self.textureInfo2.name;
-    self.baseEffect.texture2d0.target = self.textureInfo2.target;
     [self.baseEffect prepareToDraw];
     
     [self.vertexBuffer drawWithMode:GL_TRIANGLES startVertexIndex:0 numberOfVertex:sizeof(vertices)/ sizeof(SceneVertex)];
