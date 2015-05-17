@@ -477,7 +477,7 @@ static const SceneVertex vertices[] =
       NSLog(@"Program validate log:\n%s", log);
       free(log);
    }
-   
+
    glGetProgramiv(prog, GL_VALIDATE_STATUS, &status);
    if (status == 0) {
       return NO;
